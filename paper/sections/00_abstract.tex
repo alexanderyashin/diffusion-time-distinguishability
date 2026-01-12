@@ -12,19 +12,20 @@ of stochastic dynamics, constrained by the distinguishability of
 probability distributions under finite spatial resolution, finite
 statistics, and measurement noise.
 
-For normal diffusion, Fisher information yields an estimator-independent
-lower bound on temporal resolution,
+For normal diffusion, Fisher information yields an
+estimator-independent lower bound on temporal resolution,
 $\Delta t_{\min}(t) \sim t\sqrt{2/(dN)}$,
 up to dimensionless constants.
 An equivalent local bound follows from hypothesis testing via the
-Kullback--Leibler divergence, demonstrating consistency between estimation
-and testing frameworks in the small-$\Delta t$ regime.
+Kullback--Leibler divergence, demonstrating consistency between
+estimation-theoretic and testing-based formulations in the
+small-$\Delta t$ regime.
 
 In the photon-limited regime, a self-consistent analysis predicts a
 nontrivial temporal resolution scaling
 $\Delta t_{\min} \propto \Phi^{-1/3}$,
 distinct from the standard $1/\sqrt{N}$ noise suppression.
-This scaling is derived analytically, verified in numerical simulations,
+This scaling is derived analytically, verified by numerical simulations,
 and is directly testable with existing single-particle tracking and
 fluorescence-based measurement techniques.
 
@@ -34,8 +35,16 @@ associated scaling of distinguishability with time.
 All results follow from first principles and are falsifiable through
 explicit experimental protocols.
 
-The present work provides a minimal operational definition of time
+Crucially, we show that these limits are not artifacts of particular
+estimators or experimental implementations.
+Within a fixed observational channel and model class, an explicit
+information-theoretic no-go result demonstrates that no inference
+procedure can asymptotically surpass the reported scalings without
+introducing additional information beyond the spatial statistics
+considered here.
+
+The present work provides a minimal operational definition of temporal
 resolution in stochastic systems and a general template for analyzing
-temporal distinguishability under information constraints.
+time distinguishability under fundamental information constraints.
 
 \end{abstract}

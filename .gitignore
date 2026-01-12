@@ -1,0 +1,35 @@
+# --- LaTeX build artifacts ---
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.log
+**/*.out
+**/*.run.xml
+**/*.synctex.gz
+**/*.toc
+**/*.xdv
+
+# Ignore paper build PDFs, but allow versioned figure PDFs
+paper/*.pdf
+
+# --- Python / scientific ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+
+# --- OS/editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Allow release figures (keep these in git if desired) ---
+!figs/*.pdf

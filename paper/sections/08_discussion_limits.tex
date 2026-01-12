@@ -1,5 +1,6 @@
 % ============================================================
 % 08_discussion_limits.tex
+% (FULL REPLACEMENT — strict-identifiability clarified)
 % ============================================================
 
 \section{Discussion: Assumptions, Limits, and Scope}
@@ -24,22 +25,34 @@ Different choices alter only prefactors, not scaling laws.
 \paragraph{Universality.}
 The exponents $1/2$, $1/3$, $1-\alpha$, and $(2-\alpha)/3$ are invariant
 under estimator choice, confidence level, and experimental implementation
-within the stated model classes. This invariance is the physically meaningful
-content of the theory.
+\emph{within identifiable regimes of the stated model classes}.
+This invariance is the physically meaningful content of the theory.
 
 \subsection{Estimator Dependence and Optimality}
 
 The CRLB represents a lower bound achievable only by asymptotically efficient
-estimators.
+estimators in regimes where the relevant parameters are identifiable from the
+available data.
 
 \begin{itemize}
 \item Suboptimal estimators may yield larger $\Delta t_{\min}$,
 \item No estimator can improve the predicted scalings without violating
-information-theoretic bounds under the stated assumptions.
+information-theoretic bounds under the stated assumptions and identifiability
+conditions.
 \end{itemize}
 
 Thus, experimental deviations toward \emph{worse} resolution do not refute
 the theory, while systematic improvements beyond the bound do.
+
+\paragraph{Formal no-go result.}
+The impossibility of surpassing the derived temporal distinguishability
+limits by alternative inference or post-processing strategies is made
+explicit in Appendix~\ref{app:no-go}.
+There we prove an information-theoretic no-go theorem showing that,
+within a fixed observational channel, model class, and \emph{identifiable
+parameter regime}, no estimator or data-processing scheme can achieve
+asymptotic scalings superior to those reported here without introducing
+additional information beyond the spatial statistics under consideration.
 
 \subsection{Sample Independence and Correlations}
 
@@ -53,7 +66,8 @@ In practice, correlations arise from:
 \end{itemize}
 
 These effects reduce the effective sample size $N_{\mathrm{eff}} < N$.
-Replacing $N$ by $N_{\mathrm{eff}}$ restores the validity of the bounds.
+Replacing $N$ by $N_{\mathrm{eff}}$ restores the validity of the bounds
+in identifiable regimes.
 Failure to account for correlations reflects an experimental limitation,
 not a theoretical loophole.
 
@@ -68,13 +82,15 @@ This assumption holds for:
 \end{itemize}
 
 For non-Gaussian processes (e.g., CTRW with power-law waiting times),
-closed-form Fisher-information expressions may not exist.
+closed-form Fisher-information expressions may not exist or may become
+non-identifiable from single-time data.
 In such cases:
 
 \begin{itemize}
 \item KL-divergence remains well-defined and computable numerically,
 \item Monte Carlo estimation of distinguishability is sufficient,
-\item The framework remains operationally valid.
+\item The framework remains operationally valid without reliance on
+a joint Fisher-information inversion.
 \end{itemize}
 
 \subsection{Why This Is Not Trivial Experimental Resolution}
@@ -82,7 +98,8 @@ In such cases:
 A frequent objection is that $\Delta t_{\min}$ merely reflects experimental
 limitations.
 
-This interpretation is incorrect within the stated model classes.
+This interpretation is incorrect within the stated model classes and
+identifiable regimes.
 
 \begin{enumerate}
 \item The bounds are derived from \emph{probability distributions}, not from
@@ -108,6 +125,36 @@ The present $\Delta t_{\min}$ must be distinguished from:
 Here, time is neither a sampling interval nor a physical observable,
 but a parameter inferred from spatial probability distributions.
 
+% ============================================================
+% ADDED: Real experimental scale illustration
+% ============================================================
+\subsection{Illustrative Experimental Scale: GFP in Cellular Environments}
+
+To illustrate the practical magnitude of the derived limits, consider
+single-particle tracking of green fluorescent protein (GFP) in the
+cytoplasm of living cells.
+
+Typical values reported in the literature are diffusion coefficients
+$D \sim 5$--$20~\mu\mathrm{m}^2/\mathrm{s}$, anomalous exponents
+$\alpha \sim 0.7$--$0.9$ in crowded environments, optical point-spread
+functions of order $200$--$300~\mathrm{nm}$, and photon fluxes
+$\Phi \sim 10^3$--$10^4~\mathrm{s}^{-1}$ under standard confocal or
+widefield conditions.
+
+Substituting these values into the bounds derived in
+Sections~\ref{sec:normal_diffusion_crlb}--\ref{sec:photon_limited} yields minimal distinguishable
+time scales on the order of milliseconds, even under optimal inference
+and photon-efficient detection.
+This quantitatively explains why sub-millisecond temporal inference
+from purely spatial tracking data in crowded cellular media remains
+inaccessible in practice, despite continued improvements in localization
+precision and detector technology.
+
+The limitation arises not from instrumental imperfections but from the
+combined effects of anomalous transport, finite photon statistics, and
+information-theoretic constraints on inference.
+% ============================================================
+
 \subsection{Scope and Non-Claims}
 
 The theory does \emph{not} claim:
@@ -121,7 +168,8 @@ The theory does \emph{not} claim:
 It \emph{does} claim:
 
 \begin{itemize}
-\item A fundamental information-theoretic limit on temporal inference,
+\item A fundamental information-theoretic limit on temporal inference
+      in identifiable regimes,
 \item Universality across normal and anomalous diffusion,
 \item Experimental decidability with current technology.
 \end{itemize}

@@ -7,7 +7,9 @@
 
 This work makes quantitative, testable predictions. In this section we formulate
 explicit experimental protocols and statistical criteria under which the theory
-can be confirmed or falsified within controlled uncertainty bounds.
+can be confirmed or falsified within controlled uncertainty bounds. All predictions
+are understood to apply within a fixed observational channel and noise model, as
+specified in Section~\ref{sec:assumptions_scope}.
 
 \subsection{Core Falsifiable Predictions}
 
@@ -36,22 +38,24 @@ t^{(2-\alpha)/3}, & \text{photon-limited}.
 \]
 \end{enumerate}
 
-Systematic and statistically significant deviations from these scaling exponents
-constitute a refutation of the corresponding regime.
+Any systematic and statistically significant deviation from these scaling exponents
+constitutes a refutation of the corresponding regime.
 
 \subsection{Experimental Platforms}
 
 The predictions can be tested using the following established techniques:
 
 \paragraph{Single-Particle Tracking (SPT).}
-Fluorescent tracer particles in aqueous or viscoelastic media.
-Time inferred from spatial distributions rather than timestamps.
+Fluorescent tracer particles in aqueous or viscoelastic media, with time inferred
+from spatial distributions rather than explicit timestamps.
 
 \paragraph{Fluorescence Correlation Spectroscopy (FCS).}
-Temporal resolution inferred from spatial autocorrelation functions.
+Temporal resolution inferred indirectly from spatial autocorrelation functions
+under controlled photon flux.
 
 \paragraph{Confocal or Light-Sheet Microscopy.}
-Controlled photon flux $\Phi$ and point-spread function $\sigma_0$.
+Direct control of photon flux $\Phi$ and point-spread function $\sigma_0$ within a
+well-characterized optical channel.
 
 \subsection{Controlled Experimental Parameters}
 
@@ -91,7 +95,8 @@ The photon-limited regime is refuted if
 \begin{equation}
 \frac{d\log \Delta t_{\min}}{d\log \Phi} \neq -\frac{1}{3}
 \end{equation}
-within statistical uncertainty across at least one order of magnitude in $\Phi$.
+within statistical uncertainty across at least one order of magnitude in $\Phi$,
+under otherwise fixed experimental conditions.
 
 \subsection{Resolution-Limited Refutation Criterion}
 
@@ -99,7 +104,8 @@ The resolution-limited (interpretive) regime is refuted if
 \begin{equation}
 \Delta t_{\min} \not\propto \Delta x^2
 \end{equation}
-when $\sigma_0^2 \gg 2dD_\alpha t^\alpha$, after accounting for finite-sample effects.
+when $\sigma_0^2 \gg 2dD_\alpha t^\alpha$, after accounting for finite-sample effects
+and estimator bias.
 
 \subsection{Anomalous Exponent Validation}
 
@@ -109,7 +115,8 @@ The anomalous exponent $\alpha$ must be independently estimated from the MSD sca
 \]
 
 The framework is falsified if the inferred temporal scaling of $\Delta t_{\min}(t)$
-is statistically inconsistent with the independently measured $\alpha$.
+is statistically inconsistent with the independently measured $\alpha$ within
+experimental uncertainty.
 
 \subsection{Control Experiments}
 
@@ -125,7 +132,7 @@ The following controls are mandatory:
 \subsection{Summary of Falsification Conditions}
 
 The theory is considered falsified for a given regime if one or more of the following
-are observed:
+are robustly observed:
 
 \begin{enumerate}
 \item Scaling exponents differ significantly from predictions,
@@ -135,5 +142,5 @@ are observed:
 \item Deviations persist under all control corrections.
 \end{enumerate}
 
-These criteria ensure that the framework is fully Popper-falsifiable and
+These criteria are sufficient to render the framework fully Popper-falsifiable and
 experimentally decidable.

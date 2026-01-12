@@ -1,0 +1,167 @@
+% ============================================================
+% references.tex  (FULL REPLACEMENT)
+% ============================================================
+% Manual bibliography (Variant A): fully self-contained.
+%
+% IMPORTANT:
+% - This file MUST contain the complete bibliography as \bibitem entries.
+% - A .bib file is NOT automatically included unless you run BibTeX/Biber.
+% - If you want "all entries from references.bib", you must paste them here
+%   as \bibitem blocks (one per entry), using consistent citation keys.
+%
+% Robustness:
+% - The small alias block below maps legacy cite-keys (e.g. einstein1905, risken)
+%   to the canonical keys used here (Einstein1905, Risken1996).
+%   This prevents "missing citation" surprises when old keys remain in the text.
+% ============================================================
+
+\begin{thebibliography}{99}
+
+% ------------------------------------------------------------
+% Cite-key aliases (legacy compatibility)
+% ------------------------------------------------------------
+\makeatletter
+% Map \cite{einstein1905} -> \bibitem{Einstein1905}
+\@ifundefined{b@Einstein1905}{}{%
+  \@namedef{b@einstein1905}{\@nameuse{b@Einstein1905}}%
+}
+% Map \cite{risken} -> \bibitem{Risken1996}
+\@ifundefined{b@Risken1996}{}{%
+  \@namedef{b@risken}{\@nameuse{b@Risken1996}}%
+}
+\makeatother
+
+% ------------------------------------------------------------
+% Core diffusion / classical foundations
+% ------------------------------------------------------------
+
+\bibitem{Einstein1905}
+A.~Einstein,
+\emph{On the Motion of Small Particles Suspended in Liquids at Rest Required by the Molecular-Kinetic Theory of Heat},
+Annalen der Physik \textbf{17}, 549--560 (1905).
+
+\bibitem{Risken1996}
+H.~Risken,
+\emph{The Fokker--Planck Equation},
+Springer, Berlin (1996).
+
+\bibitem{Gardiner2004}
+C.~W.~Gardiner,
+\emph{Handbook of Stochastic Methods},
+Springer, Berlin (2004).
+
+\bibitem{Berg1983}
+H.~C.~Berg,
+\emph{Random Walks in Biology},
+Princeton University Press, Princeton (1983).
+
+% ------------------------------------------------------------
+% Estimation theory / CRLB / Fisher information
+% ------------------------------------------------------------
+
+\bibitem{Fisher1925}
+R.~A.~Fisher,
+\emph{Theory of Statistical Estimation},
+Proceedings of the Cambridge Philosophical Society \textbf{22}, 700--725 (1925).
+
+\bibitem{Cramer1946}
+H.~Cram\'er,
+\emph{Mathematical Methods of Statistics},
+Princeton University Press, Princeton (1946).
+
+\bibitem{Kay1993}
+S.~M.~Kay,
+\emph{Fundamentals of Statistical Signal Processing: Estimation Theory},
+Prentice Hall, Englewood Cliffs (1993).
+
+% ------------------------------------------------------------
+% Information theory / KL divergence
+% ------------------------------------------------------------
+
+\bibitem{Kullback1951}
+S.~Kullback and R.~A.~Leibler,
+\emph{On Information and Sufficiency},
+Annals of Mathematical Statistics \textbf{22}, 79--86 (1951).
+
+\bibitem{Cover2006}
+T.~M.~Cover and J.~A.~Thomas,
+\emph{Elements of Information Theory},
+Wiley, Hoboken (2006).
+
+% ------------------------------------------------------------
+% Single-particle tracking / localization error / microscopy
+% ------------------------------------------------------------
+
+\bibitem{Saxton1997}
+M.~J.~Saxton and K.~Jacobson,
+\emph{Single-particle tracking: applications to membrane dynamics},
+Annual Review of Biophysics and Biomolecular Structure \textbf{26}, 373--399 (1997).
+
+\bibitem{Ober2004}
+R.~J.~Ober, S.~Ram, and E.~S.~Ward,
+\emph{Localization accuracy in single-molecule microscopy},
+Biophysical Journal \textbf{86}, 1185--1200 (2004).
+
+\bibitem{Michalet2010}
+X.~Michalet,
+\emph{Mean square displacement analysis of single-particle trajectories with localization error},
+Physical Review E \textbf{82}, 041914 (2010).
+
+\bibitem{Balzarotti2017}
+F.~Balzarotti \emph{et al.},
+\emph{Nanometer resolution imaging and tracking of fluorescent molecules with minimal photon fluxes},
+Science \textbf{355}, 606--612 (2017).
+
+\bibitem{vanDenBroek2013}
+B.~van~den~Broek \emph{et al.},
+\emph{Limits to the precision of position determination in fluorescence microscopy},
+Physical Review Letters \textbf{111}, 158102 (2013).
+
+% ------------------------------------------------------------
+% Anomalous diffusion
+% ------------------------------------------------------------
+
+\bibitem{Metzler2000}
+R.~Metzler and J.~Klafter,
+\emph{The random walk's guide to anomalous diffusion},
+Physics Reports \textbf{339}, 1--77 (2000).
+
+\bibitem{Sokolov2012}
+I.~M.~Sokolov,
+\emph{Models of anomalous diffusion in crowded environments},
+Soft Matter \textbf{8}, 9043--9052 (2012).
+
+\bibitem{Metzler2014}
+R.~Metzler \emph{et al.},
+\emph{Anomalous diffusion models and their properties},
+Acta Physica Polonica B \textbf{45}, 2237--2279 (2014).
+
+% ------------------------------------------------------------
+% Parameter estimation / diffusion statistics / misc
+% ------------------------------------------------------------
+
+\bibitem{Gloter2001}
+A.~Gloter and J.~Jacod,
+\emph{Diffusion parameter estimation},
+Finance and Stochastics \textbf{5}, 553--572 (2001).
+
+\bibitem{Lindgren2012}
+F.~Lindgren \emph{et al.},
+\emph{Stochastic partial differential equations and Gaussian fields},
+Journal of the Royal Statistical Society B \textbf{73}, 423--498 (2012).
+
+\bibitem{Song2010}
+C.~Song \emph{et al.},
+\emph{Limits of predictability in human mobility},
+Science \textbf{327}, 1018--1021 (2010).
+
+% ------------------------------------------------------------
+% Operationalism / philosophy of measurement
+% ------------------------------------------------------------
+
+\bibitem{Bridgman1927}
+P.~W.~Bridgman,
+\emph{The Logic of Modern Physics},
+Macmillan, New York (1927).
+
+\end{thebibliography}

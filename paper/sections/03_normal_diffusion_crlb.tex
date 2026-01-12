@@ -8,7 +8,8 @@
 We begin with the simplest and analytically tractable case: free normal diffusion
 with a Gaussian propagator. This section establishes Fisher information and
 Cramér--Rao lower bounds (CRLB) for time inference, including explicit numerical
-coefficients and confidence levels.
+coefficients and confidence levels. The results serve as a reference baseline for
+all subsequent generalizations.
 
 \subsection{Model Definition}
 
@@ -30,7 +31,7 @@ s(t) := 2 D t + \sigma_0^2 .
 \end{equation}
 
 We first treat the case where $D$ and $\sigma_0$ are known parameters; joint estimation
-is addressed separately.
+and the associated information loss are addressed separately.
 
 \subsection{Score Function}
 
@@ -47,8 +48,9 @@ Differentiating with respect to $t$ yields the score function
 = D\left(
     \frac{\|x\|^2}{s(t)^2}
     - \frac{d}{s(t)}
-  \right).
+  \right),
 \end{equation}
+which is unbiased and has zero mean under $p_{\mathrm{obs}}(x\mid t)$.
 
 \subsection{Fisher Information}
 
@@ -100,6 +102,9 @@ $z=1.96$ for 95\% confidence), we define the minimal distinguishable time increm
 = z \frac{2 D t + \sigma_0^2}{\sqrt{2 d}\, D \sqrt{N_{\mathrm{eff}}}} .
 \end{equation}
 
+The factor $z$ fixes a confidence convention and does not affect the asymptotic
+scaling behavior of the bound.
+
 \subsection{Limiting Regimes}
 
 Two experimentally relevant regimes follow immediately.
@@ -128,4 +133,6 @@ and observation assumptions.
 The bounds above quantify a fundamental limitation on inferring elapsed time from
 spatial data. They do not imply any modification of the underlying dynamics and do
 not introduce a discrete time scale. Instead, they express the degradation of temporal
-information caused by finite spatial resolution, finite statistics, and noise.
+information caused by finite spatial resolution, finite statistics, and noise. The
+resulting limitation is purely operational and persists independently of the
+specific estimator employed.

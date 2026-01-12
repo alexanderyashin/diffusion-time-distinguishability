@@ -16,7 +16,8 @@ scalings are conditional on this section.
 The central goal is not to postulate time as a primitive parameter, but to determine
 the minimal increment of time that can be statistically distinguished from zero using
 spatial observations under finite resources. Time is treated as an inferred parameter,
-and its distinguishability is defined operationally via estimation and hypothesis
+and its distinguishability is defined operationally as a property of probability
+distributions induced by the dynamics, quantified via estimation and hypothesis
 testing theory.
 
 \subsection{Observation Paradigm}
@@ -33,7 +34,8 @@ following experimentally relevant scenarios:
   \item Two closely spaced snapshots with uncertain inter-frame delay.
 \end{itemize}
 
-Time is inferred solely from spatial statistics of the observed data.
+Time is inferred solely from spatial statistics of the observed data; no direct time
+stamps or dynamical trajectories are assumed unless explicitly stated.
 
 \subsection{Assumptions}
 
@@ -47,7 +49,8 @@ diffusion, specified generalizations apply.
 \paragraph{A2 (Snapshot statistics).}
 Observations correspond to instantaneous snapshots of the spatial distribution.
 Temporal averaging during exposure is neglected at the theoretical level and treated
-as a correlation effect when relevant.
+as an effective correlation or blur effect when relevant. Corrections of this type are
+absorbed into the effective sample size defined below.
 
 \paragraph{A3 (Gaussian observation noise).}
 Observed positions include additive, zero-mean Gaussian noise with variance
@@ -69,7 +72,9 @@ N_\gamma = \Phi \,\Delta t,
 \]
 where $\Phi$ is the photon flux and $\Delta t$ denotes a controllable acquisition or
 exposure interval. This $\Delta t$ should be distinguished from the inferred minimal
-distinguishable time increment $\Delta t_{\min}$ introduced later.
+distinguishable time increment $\Delta t_{\min}$ introduced later. The analysis
+explicitly accounts for the self-consistent coupling between exposure time and
+information acquisition.
 
 \paragraph{A6 (Regularity conditions).}
 Probability distributions are assumed sufficiently smooth in the time parameter to
@@ -106,8 +111,10 @@ determined by the anomalous exponent $\alpha$.
 
 \paragraph{Class III: Non-Gaussian anomalous diffusion.}
 Processes with non-Gaussian propagators (e.g., continuous-time random walks or
-Lévy flights). Universal analytic Fisher information bounds generally do not exist;
-distinguishability is defined operationally via data-driven KL divergence.
+Lévy flights). Universal analytic Fisher information bounds generally do not exist
+due to the absence of regular likelihood structure. In this class, time
+distinguishability is defined operationally via data-driven Kullback--Leibler
+divergence and hypothesis testing between empirical distributions.
 
 \subsection{Scope and Limitations}
 
@@ -120,7 +127,8 @@ This work does \emph{not} assume:
 
 The results provide lower bounds on time distinguishability under the stated
 assumptions. Violation of the predicted scalings under controlled conditions
-constitutes direct falsification.
+constitutes direct falsification. Explicit no-go statements and numerical validation
+are provided in Appendices~C and~D.
 
 \subsection{Roadmap}
 

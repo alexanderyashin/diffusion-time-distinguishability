@@ -1,5 +1,5 @@
 % ============================================================
-% main.tex
+% main.tex  (FULL REPLACEMENT)
 % ============================================================
 %
 % Root document for the Zenodo preprint:
@@ -33,6 +33,12 @@
 \maketitle
 
 % ------------------------------------------------------------
+% Table of contents
+% ------------------------------------------------------------
+\tableofcontents
+\clearpage
+
+% ------------------------------------------------------------
 % Abstract
 % ------------------------------------------------------------
 \input{sections/00_abstract}
@@ -43,7 +49,7 @@
 \input{sections/01_assumptions_scope}
 \input{sections/02_problem_setup}
 \input{sections/03_normal_diffusion_crlb}
-\input{sections/03_joint_estimation_fisher_matrix.tex}
+\input{sections/03b_joint_estimation_fisher_matrix.tex}
 \input{sections/04_kl_equivalence}
 \input{sections/05_photon_limited_regime}
 \input{sections/06_anomalous_diffusion}
@@ -52,16 +58,31 @@
 \input{sections/09_conclusion}
 
 % ------------------------------------------------------------
+% Acknowledgements
+% ------------------------------------------------------------
+\clearpage
+\section*{Acknowledgements}
+\addcontentsline{toc}{section}{Acknowledgements}
+
+The author is grateful to A.~M.~Semikhatov for many years of public lectures
+and discussions that shaped the author’s understanding of operational
+reasoning in modern physics.
+
+% ------------------------------------------------------------
 % Appendices
 % ------------------------------------------------------------
 \appendix
 \input{sections/A_appendix_derivations}
 \input{sections/B_appendix_simulations}
+\input{sections/C_appendix_no_go}
+\input{sections/D_appendix_numerical_validation}
 
 % ------------------------------------------------------------
-% Bibliography
+% Bibliography (Variant A: manual thebibliography in references.tex)
 % ------------------------------------------------------------
-\bibliographystyle{unsrt}
-\bibliography{bib/references}
+\clearpage
+% \bibliographystyle{unsrt}
+% \bibliography{bib/references}
+\input{references}
 
 \end{document}

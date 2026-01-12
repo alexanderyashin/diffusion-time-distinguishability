@@ -18,6 +18,13 @@ in Diffusive Dynamics}}
 
 \vspace{-1em}
 
+\section*{Scope of this note}
+
+This document is a condensed operational summary of a full theoretical
+and numerical study.
+All derivations, simulations, and reproducibility details
+are provided in the extended version available via Zenodo/GitHub.
+
 \section*{Problem}
 
 In stochastic systems such as diffusion, time is not directly observable.
@@ -30,7 +37,7 @@ distinguished from data, given finite statistics and measurement noise?}
 \end{quote}
 
 This is not a question of dynamics,
-but of \emph{information and inference}.
+but of \emph{information and inference} \cite{Fisher1925,Cramer1946,Kay1993}.
 
 \section*{Framework}
 
@@ -40,7 +47,7 @@ Time $t$ is treated as an \emph{estimable parameter}.
 Distinguishability between $t$ and $t+\Delta t$ is quantified using:
 \begin{itemize}
 \item Fisher information $I(t)$ and the Cram\'er--Rao bound,
-\item Kullback--Leibler divergence for hypothesis testing.
+\item Kullback--Leibler divergence for hypothesis testing \cite{Kullback1951}.
 \end{itemize}
 
 For normal diffusion in $d$ dimensions:
@@ -48,8 +55,9 @@ For normal diffusion in $d$ dimensions:
 P(x|t)=\frac{1}{(4\pi Dt)^{d/2}}
 \exp\!\left(-\frac{x^2}{4Dt}\right),
 \qquad
-\langle x^2\rangle = 2dDt.
+\langle x^2\rangle = 2dDt,
 \]
+following the classical theory of Brownian motion \cite{Einstein1905,Risken1996}.
 
 \section*{Key Result I: Statistical Limit}
 
@@ -87,8 +95,10 @@ This scaling:
 \begin{itemize}
 \item is nontrivial,
 \item does not follow from dimensional analysis,
-\item arises from the interplay of inference and noise.
+\item arises from the interplay of inference and noise,
 \end{itemize}
+and is consistent with precision limits in single-particle microscopy
+\cite{Ober2004,Balzarotti2017}.
 
 \section*{Key Result III: Anomalous Diffusion (Interpretive)}
 
@@ -103,8 +113,10 @@ a minimal resolution-based lower bound is:
 This criterion is \emph{interpretive} and serves as intuition.
 Information-theoretic bounds in the photon-limited regime yield:
 \[
-\Delta t_{\min}(t)\propto t^{(2-\alpha)/3}.
+\Delta t_{\min}(t)\propto t^{(2-\alpha)/3},
 \]
+in agreement with general anomalous diffusion theory
+\cite{Metzler2000,Sokolov2012}.
 
 \begin{itemize}
 \item Subdiffusion ($\alpha<1$): temporal resolution degrades with time.
@@ -136,7 +148,8 @@ are provided in the accompanying repository.
 \end{itemize}
 
 Time remains continuous in dynamics;
-discreteness emerges only at the level of distinguishability.
+discreteness emerges only at the level of distinguishability,
+in the operational sense advocated by Bridgman \cite{Bridgman1927}.
 
 \section*{Status}
 
@@ -150,5 +163,8 @@ This result is:
 
 A full derivation, numerical simulations, and reproducibility notes
 are available in the extended version (Zenodo / GitHub).
+
+\bibliographystyle{unsrt}
+\bibliography{references}
 
 \end{document}

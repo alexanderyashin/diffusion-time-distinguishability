@@ -7,18 +7,21 @@
 
 In many experimental settings—single-particle tracking (SPT), fluorescence correlation
 spectroscopy (FCS), and localization microscopy—the dominant limitation is not the number
-of particles but the finite photon flux. In this regime, the effective sample size
-$N_{\mathrm{eff}}$ is itself a function of the temporal resolution $\Delta t$ to be inferred.
-This leads to a fundamentally self-consistent inference problem.
+of particles but the finite photon flux. In this regime, the effective statistical
+information available for inference depends explicitly on the temporal resolution
+$\Delta t$ being probed. As a result, temporal distinguishability must be determined
+self-consistently.
 
 \subsection{Photon Statistics and Observation Noise}
 
-We assume that during an observation window $\Delta t$, the total number of detected
-photons follows Poisson statistics,
+We assume that during an observation window of duration $\Delta t$, the total number of
+detected photons follows Poisson statistics,
 \begin{equation}
 N_\gamma \sim \mathrm{Poisson}(\Phi\, \Delta t),
 \end{equation}
-where $\Phi$ is the photon flux (photons per unit time).
+where $\Phi$ is the photon flux (photons per unit time). The quantity $\Delta t$ here
+denotes the acquisition or exposure duration and should be distinguished from the
+minimal distinguishable time increment $\Delta t_{\min}$ derived below.
 
 The observed spatial variance is
 \begin{equation}
@@ -66,16 +69,16 @@ Substituting $N_\gamma = \Phi\, \Delta t$ gives
 \subsection{Self-Consistent Temporal Resolution}
 
 The minimal resolvable time interval is defined operationally by requiring that the
-uncertainty of the inferred time matches the resolution being tested,
+uncertainty of the inferred time matches the temporal resolution being tested,
 \begin{equation}
 \Delta t_{\min}^2
 =
 \mathrm{Var}(\hat t),
 \end{equation}
-which is consistent with the estimator-based criterion used in previous sections up to
-fixed numerical confidence factors.
+which is consistent with the estimator-based distinguishability criterion used in
+previous sections up to fixed numerical confidence factors.
 
-This leads to the self-consistency equation
+This yields the self-consistency (fixed-point) equation
 \begin{equation}
 \Delta t_{\min}^3
 =
@@ -83,6 +86,10 @@ This leads to the self-consistency equation
 (2Dt + \sigma_0^2)^2.
 \label{eq:self_consistent}
 \end{equation}
+
+The cubic structure of Eq.~\eqref{eq:self_consistent} reflects a closed information
+loop: improving temporal resolution requires more photons, while acquiring photons
+requires time.
 
 \subsection{Two Asymptotic Regimes}
 
@@ -101,7 +108,8 @@ This yields the nontrivial scaling law
 \[
 \Delta t_{\min} \propto \Phi^{-1/3},
 \]
-which is fundamentally distinct from the standard $1/\sqrt{N}$ noise suppression.
+which is fundamentally distinct from the standard $1/\sqrt{N}$ noise suppression and
+cannot be obtained by dimensional analysis alone.
 
 \paragraph{Diffusion-dominated regime ($2Dt \gg \sigma_0^2$).}
 
@@ -123,18 +131,15 @@ distinguishability as diffusion broadens.
 \subsection{Interpretation}
 
 The cubic self-consistency relation~\eqref{eq:self_consistent} is the central result of
-the photon-limited regime. It expresses a closed information-theoretic loop:
-\begin{quote}
-\emph{Improving temporal resolution requires photons, but photons require time.}
-\end{quote}
-
-The exponent $1/3$ is therefore not heuristic but a direct consequence of Poisson photon
-statistics combined with quadratic spatial uncertainty.
+the photon-limited regime. The exponent $1/3$ is not heuristic but follows uniquely
+from the combination of Poisson photon statistics and quadratic spatial uncertainty.
+Any inference scheme operating within this observational channel and noise model must
+obey the same scaling.
 
 \subsection{Relation to Fisher Information}
 
 The photon-limited bound can alternatively be derived from a Fisher-information
 calculation in which the photon number $N_\gamma=\Phi\Delta t$ is treated as a
 stochastic, time-dependent resource. Both approaches yield identical scaling and
-consistent numerical prefactors under matching modeling assumptions, confirming the
-internal consistency of the framework.
+consistent numerical prefactors under matching modeling assumptions, a fact confirmed
+by numerical simulations in Appendix~D.

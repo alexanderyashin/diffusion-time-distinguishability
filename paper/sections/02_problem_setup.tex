@@ -39,6 +39,8 @@ we define
 := z \sqrt{\mathrm{Var}(\hat t)} ,
 \end{equation}
 where $\mathrm{Var}(\hat t)$ is lower bounded by the Cramér--Rao inequality.
+The numerical value of $z$ fixes a confidence convention but does not affect the
+scaling behavior of $\Delta t_{\min}$.
 
 \paragraph{Hypothesis-testing distinguishability.}
 Alternatively, consider the binary hypothesis test
@@ -53,13 +55,15 @@ two hypotheses can be discriminated with prescribed error probabilities. We defi
 D_{\mathrm{KL}}\!\left(p(x\mid t) \,\|\, p(x\mid t+\Delta t)\right)
 \ge C(p^\ast) \right\},
 \end{equation}
-where $p^\ast$ denotes a target error level and $C(p^\ast)$ is an explicit constant
-determined by standard bounds in statistical decision theory.
+where $p^\ast$ denotes a target error level and $C(p^\ast)$ is a fixed constant
+determined by standard bounds in statistical decision theory. As in the estimation
+case, $C(p^\ast)$ affects only numerical prefactors, not asymptotic scalings.
 
 \subsection{Local Equivalence Principle}
 
-For regular parametric families, the two notions above are locally equivalent.
-Specifically, for small $\Delta t$ the KL divergence admits the expansion
+For regular parametric families satisfying standard smoothness and identifiability
+conditions, the two notions above are locally equivalent. Specifically, for small
+$\Delta t$ the KL divergence admits the expansion
 \[
 D_{\mathrm{KL}}\!\left(p(x\mid t) \,\|\, p(x\mid t+\Delta t)\right)
 = \tfrac{1}{2} I(t)\,(\Delta t)^2 + o\!\left((\Delta t)^2\right),
@@ -69,7 +73,7 @@ As a consequence, hypothesis-testing distinguishability and estimator variance a
 governed by the same information-theoretic quantity up to fixed numerical constants.
 
 This equivalence ensures that $\Delta t_{\min}$ is not an arbitrary construct but
-a well-defined operational quantity independent of the specific inference strategy
+a well-defined operational quantity, independent of the specific inference strategy
 within the local regime.
 
 \subsection{Resources and Constraints}
@@ -83,7 +87,7 @@ Temporal distinguishability depends on available resources:
 \end{itemize}
 
 All results in subsequent sections explicitly display their dependence on these
-resources.
+resources and identify regimes in which particular constraints dominate.
 
 \subsection{What Is \emph{Not} Assumed}
 
@@ -102,4 +106,5 @@ observations and the constraints of inference.
 Throughout this work, ``time resolution'' refers to an \emph{operational limit on
 inference}, not to a modification of underlying dynamics. The same physical process
 may admit arbitrarily fine temporal parametrization in principle, while remaining
-experimentally indistinguishable below $\Delta t_{\min}$.
+experimentally indistinguishable below $\Delta t_{\min}$. This distinction underlies
+the information-theoretic no-go statements established later.

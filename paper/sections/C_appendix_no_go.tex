@@ -1,0 +1,215 @@
+% ============================================================
+% Appendix C (FULL FILE)
+% Operational No-Go Theorem for Sub-Temporal Distinguishability
+% ============================================================
+
+\section{Appendix C. Operational no-go theorem for sub-temporal distinguishability}
+\label{app:no-go}
+
+\subsection{Purpose and scope}
+This appendix formalizes an \emph{operational no-go statement}:
+\emph{when ``time'' is inferred solely from spatial statistics of a diffusive process under explicit measurement constraints, no data processing (including arbitrarily sophisticated inference, ML, Bayesian methods, or adaptive estimators) can beat the information-theoretic limit on temporal distinguishability without importing additional information channels.}
+
+The result is not a ``quantum of time'' claim. It is a \emph{closure statement} about information content available in the observational channel used to infer time.
+
+\subsection{Setup}
+Let $t>0$ be a time-like parameter of interest.
+The observational record is a random object $Y$ (e.g., $N$ particle positions, a spatial intensity field, a set of localization events, or any measurement whose likelihood depends on $t$ through the diffusion-induced spatial distribution).
+
+We consider a parametric family of data distributions $\{P_t\}_{t>0}$ on the observation space $\mathcal{Y}$:
+\[
+Y \sim P_t.
+\]
+Temporal distinguishability is defined operationally as the ability to discriminate $t$ from $t+\Delta t$ based on $Y$.
+
+\paragraph{Hypothesis testing view.}
+Consider binary hypotheses
+\[
+H_0: Y \sim P_t,
+\qquad
+H_1: Y \sim P_{t+\Delta t}.
+\]
+A standard information measure of distinguishability is the Kullback--Leibler divergence
+\[
+D_{\mathrm{KL}}(P_t \,\|\, P_{t+\Delta t}).
+\]
+For $N$ independent samples, the KL scales additively:
+\[
+D_{\mathrm{KL}}(P_t^{\otimes N} \,\|\, P_{t+\Delta t}^{\otimes N})
+=
+N\,D_{\mathrm{KL}}(P_t \,\|\, P_{t+\Delta t}).
+\]
+
+\paragraph{Estimation view.}
+For unbiased estimation of $t$ from $Y$, the Cram\'er--Rao lower bound (CRLB) sets
+\[
+\mathrm{Var}(\hat t) \;\ge\; \frac{1}{I(t)},
+\]
+where $I(t)$ is Fisher information of the observation model.
+For $N$ i.i.d. samples, $I_N(t)=N I_1(t)$.
+
+\subsection{Assumptions (explicit)}
+The no-go theorem is stated under the following assumptions. They are intentionally minimal and purely operational.
+
+\begin{enumerate}[label=\textbf{A\arabic*.}, leftmargin=2.5em]
+\item \textbf{Single-channel observation.}
+All information used to infer $t$ is contained in the observed random object $Y$ drawn from $P_t$.
+
+\item \textbf{Model validity.}
+The likelihood family $\{P_t\}$ correctly describes the observational channel (including PSF, pixelation, background noise model, photon statistics, etc.) \emph{up to stated nuisance parameters}. Any additional effects not modeled are treated as out-of-model and invalidate conclusions only in the direction of \emph{weaker} distinguishability.
+
+\item \textbf{No external clock in the data.}
+There is no auxiliary time-stamping channel independent of the spatial distribution (e.g., an external hardware clock, synchronized pulsing, or a second process serving as a time reference) unless explicitly included into $Y$.
+
+\item \textbf{Data processing allowed.}
+Any measurable transformation $T:\mathcal{Y}\to \mathcal{Z}$ is allowed (including arbitrary ML/Bayesian estimators, filters, and adaptive post-processing), as long as it uses only $Y$.
+
+\item \textbf{Independence structure stated.}
+If $Y$ consists of multiple observations, the assumed dependence structure (i.i.d., weakly dependent, or correlated) is explicitly stated. Correlations are allowed, but then the correct joint model is used.
+\end{enumerate}
+
+\subsection{Key information inequality}
+The core mathematical tool is the \emph{data processing inequality} (DPI) for KL divergence:
+
+\begin{quote}
+For any measurable map $T$, and any two distributions $P,Q$ on $\mathcal{Y}$,
+\[
+D_{\mathrm{KL}}(P \,\|\, Q) \;\ge\; D_{\mathrm{KL}}(T_\# P \,\|\, T_\# Q),
+\]
+where $T_\# P$ denotes the pushforward distribution of $T(Y)$ when $Y\sim P$.
+\end{quote}
+
+Intuitively: \emph{no post-processing can create distinguishability not already present in the raw data.}
+
+\subsection{The no-go theorem (KL form)}
+\textbf{Theorem C1 (Operational no-go; KL form).}
+\emph{Under assumptions A1--A5, for any estimator, classifier, or algorithm that maps observed data $Y$ to a decision or estimate, the achievable distinguishability between $t$ and $t+\Delta t$ is upper bounded by the KL divergence of the observational channel. In particular, for any post-processing $Z=T(Y)$,}
+\[
+D_{\mathrm{KL}}(P_t \,\|\, P_{t+\Delta t})
+\;\ge\;
+D_{\mathrm{KL}}(P^Z_t \,\|\, P^Z_{t+\Delta t}),
+\]
+\emph{and for $N$ i.i.d.\ observations the total KL is exactly $N$ times the single-observation KL. Therefore, any claimed procedure that distinguishes $t$ from $t+\Delta t$ with error rates inconsistent with the KL bound must be using additional information not contained in the channel model (violating A1/A3), or must rely on a mismodeled likelihood (violating A2).}
+
+\paragraph{Proof.}
+Let $P=P_t$ and $Q=P_{t+\Delta t}$ on $\mathcal{Y}$.
+For any measurable $T$, DPI gives
+$D_{\mathrm{KL}}(P\|Q)\ge D_{\mathrm{KL}}(T_\#P\|T_\#Q)$.
+Setting $Z=T(Y)$ yields the first inequality.
+
+For $N$ i.i.d.\ samples, the joint distributions are product measures $P^{\otimes N},Q^{\otimes N}$ and KL additivity gives
+$D_{\mathrm{KL}}(P^{\otimes N}\|Q^{\otimes N})=N D_{\mathrm{KL}}(P\|Q)$.
+No algorithm using only the $N$ samples can exceed this information content by DPI applied to $T(Y_1,\ldots,Y_N)$.
+\hfill $\square$
+
+\subsection{Local equivalence: KL and Fisher information}
+The KL bound becomes particularly sharp for small $\Delta t$ via local asymptotics.
+
+\textbf{Lemma C2 (Local KL expansion).}
+\emph{Assume regularity conditions for $\{P_t\}$ (differentiability in quadratic mean). Then for $\Delta t\to 0$,}
+\[
+D_{\mathrm{KL}}(P_t \,\|\, P_{t+\Delta t})
+=
+\frac{1}{2}\,I(t)\,(\Delta t)^2 + o\!\left((\Delta t)^2\right),
+\]
+\emph{where $I(t)$ is Fisher information for parameter $t$.}
+
+\paragraph{Proof sketch.}
+This is a standard result from local asymptotic normality / second-order Taylor expansion of KL in parametric models, with Fisher information appearing as the curvature of KL at $t$.
+\hfill $\square$
+
+\textbf{Corollary C3 (Estimator-independence of the scale).}
+\emph{Combining Theorem C1 with Lemma C2, the \emph{scaling} of minimal distinguishable $\Delta t$ is governed by Fisher information and cannot be improved by algorithmic sophistication: any method based solely on $Y$ inherits the same $\Delta t$ scaling for small increments, up to constants reflecting chosen error probabilities.}
+
+\subsection{CRLB-based no-go statement}
+\textbf{Theorem C4 (Operational no-go; CRLB form).}
+\emph{Under A1--A5 and regularity of $\{P_t\}$, for any unbiased estimator $\hat t(Y)$,}
+\[
+\mathrm{Var}(\hat t) \;\ge\; \frac{1}{I(t)}.
+\]
+\emph{Hence, an operational minimal temporal scale defined as a constant-multiple of the standard deviation}
+\[
+\Delta t_{\min}(t) := c \sqrt{\mathrm{Var}(\hat t)}
+\]
+\emph{obeys}
+\[
+\Delta t_{\min}(t) \;\ge\; \frac{c}{\sqrt{I(t)}},
+\]
+\emph{and no post-processing can beat this without violating A1/A2/A3.}
+
+\paragraph{Proof.}
+CRLB is estimator-independent given the model. If a procedure violates the inequality, at least one assumption fails (biased estimator, wrong model, or additional information beyond $Y$).
+\hfill $\square$
+
+\subsection{Concrete specialization: free Gaussian diffusion}
+For free diffusion in $d$ dimensions, with Gaussian propagator for displacement (or position relative to a known origin),
+\[
+p(x\mid t) = \frac{1}{(4\pi D t)^{d/2}}
+\exp\!\left(-\frac{\|x\|^2}{4 D t}\right),
+\]
+the Fisher information for $t$ from a single sample is
+\[
+I_1(t)=\frac{d}{2t^2},
+\qquad
+I_N(t)=\frac{Nd}{2t^2}.
+\]
+Thus CRLB implies
+\[
+\mathrm{Var}(\hat t)\ge \frac{2t^2}{Nd},
+\qquad
+\Delta t_{\min}(t)\;\gtrsim\; t\sqrt{\frac{2}{Nd}},
+\]
+consistent with the main text.
+
+\subsection{Photon-limited regime: why the cubic-root scaling cannot be beaten}
+The photon-limited self-consistent scaling derived in the main text can be rephrased as a no-go closure statement.
+
+\textbf{Proposition C5 (Photon-limited closure).}
+\emph{Assume an observational model in which the relevant width-like statistic $s$ (e.g.\ variance proxy) is estimated from photon counts with effective rate $\Phi$ and the estimator variance scales as}
+\[
+\mathrm{Var}(\widehat{s}) \;\asymp\; \frac{\kappa\, s^2}{N_\gamma},
+\qquad
+N_\gamma=\Phi \Delta t,
+\]
+\emph{with $\kappa>0$ determined by the measurement model (PSF, background, fitting method). If $s$ itself grows (or changes) with $t$ and the same observation interval $\Delta t$ supplies the photons used to estimate $s$, then the minimal self-consistent distinguishable temporal increment satisfies a cubic-root relation}
+\[
+\Delta t_{\min}\;\propto\;\Phi^{-1/3}\times(\text{spatial scale})^{4/3}\times(\text{diffusivity})^{-2/3},
+\]
+\emph{up to model-specific constants, and cannot be improved by post-processing within A1--A5.}
+
+\paragraph{Justification.}
+The cubic-root structure follows from (i) a $1/N_\gamma$ estimation variance law, (ii) $N_\gamma=\Phi \Delta t$, and (iii) self-consistency of using the same $\Delta t$ as both the integration time for photons and the increment to be resolved. Post-processing cannot improve the fundamental $1/N_\gamma$ information scaling without adding photons (increasing $\Phi$ or integration) or adding a new channel beyond A1/A3.
+\hfill $\square$
+
+\subsection{What would count as a genuine violation?}
+This is the practical ``referee clause''.
+
+\textbf{Corollary C6 (Only two ways to beat the bound).}
+\emph{If an experiment or algorithm claims sub-$\Delta t_{\min}$ distinguishability, then at least one of the following must be true:}
+\begin{enumerate}[label=\textbf{V\arabic*.}, leftmargin=2.5em]
+\item \textbf{Additional information channel:}
+The data include an external clock, synchronized driving, known pulsing, multi-modal signals, or another variable carrying information about time beyond spatial diffusion statistics (violating A1/A3 in the restricted model).
+
+\item \textbf{Model mismatch:}
+The assumed likelihood family $\{P_t\}$ is wrong or incomplete (violating A2). In that case, the ``violation'' is explained by unmodeled structure that indeed carries extra information (e.g.\ confinement, drift, active transport, intermittency) and must be added as a new model dimension.
+\end{enumerate}
+
+In all other cases, \emph{a claimed violation is not a new inference trick; it is evidence of hidden information or a wrong model.}
+
+\subsection{Interpretation as an operational boundary of ``time''}
+The no-go theorem supports the following operational statement:
+
+\begin{quote}
+Within a fixed observational channel, ``time'' is not an unlimited parameter.
+It is meaningful only down to the resolution at which $P_t$ and $P_{t+\Delta t}$ are distinguishable in that channel.
+Below that, the notion of ``a smaller $\Delta t$'' becomes operationally empty unless new information channels are introduced.
+\end{quote}
+
+\subsection{Checklist for integrating Appendix C into the main narrative}
+When referencing this appendix from the main text (and later from the Abstract), keep the claim strictly operational:
+
+\begin{itemize}[leftmargin=2em]
+\item State that Appendix C proves an \emph{information closure} result: no post-processing can beat the KL/FI limit in the stated observational channel.
+\item Avoid metaphysical language: do not call it ``fundamental time quantum''.
+\item Emphasize falsifiability: any apparent violation implies either extra channels or wrong model, which is itself a testable diagnosis.
+\end{itemize}

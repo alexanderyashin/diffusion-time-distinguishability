@@ -39,6 +39,8 @@ class Params:
     n_iter: int = 25            # fixed-point iterations
     n_trials: int = 2000        # Monte Carlo trials per Φ (keep CI-friendly)
     seed: int = 42              # RNG seed
+    min_photons: int = 5        # minimal photon count for stable variance estimate
+    max_photon_resample: int = 12  # resample attempts per iteration for too-low counts
 
 
 def analytic_dt_min(phi: float, p: Params) -> float:
@@ -55,6 +57,19 @@ def analytic_dt_min(phi: float, p: Params) -> float:
     """
     if phi <= 0.0:
         raise ValueError("phi must be positive.")
+    if p.D <= 0.0:
+        raise ValueError("D must be positive.")
+    if p.d <= 0:
+        raise ValueError("d must be a positive integer.")
+    if p.t0 <= 0.0:
+        raise ValueError("t0 must be positive.")
+    if p.sigma0 < 0.0:
+        raise ValueError("sigma0 must be >= 0.")
+    if p.kappa <= 0.0:
+        raise ValueError("kappa must be positive.")
+    if p.z <= 0.0:
+        raise ValueError("z must be positive.")
+
     sigma2 = p.sigma0**2 + 2.0 * p.d * p.D * p.t0
     pref = (p.z**2) * (p.kappa / (4.0 * (p.d**2) * (p.D**2))) * (sigma2**2)
     dt = (pref / phi) ** (1.0 / 3.0)
@@ -67,30 +82,56 @@ def fixed_point_mc(phi: float, p: Params, rng: np.random.Generator) -> np.ndarra
 
     Returns:
       dt_estimates: array of length n_trials containing Δt_min estimates.
+
+    Strictness note:
+    - If N_gamma is too small, the variance proxy A/N_gamma becomes unstable.
+      We therefore enforce a minimal photon regime by *increasing Δt and resampling*
+      N_gamma from the correct Poisson(ΦΔt). This preserves the generative model.
     """
-    # Initialize Δt guesses (same start for all trials; fixed-point will converge).
-    dt = np.full(p.n_trials, 1e-3, dtype=float)
+    if phi <= 0.0:
+        raise ValueError("phi must be positive.")
+    if p.min_photons < 1:
+        raise ValueError("min_photons must be >= 1.")
+    if p.max_photon_resample < 1:
+        raise ValueError("max_photon_resample must be >= 1.")
+
+    # Use analytic prediction as an initialization (stabilizes convergence).
+    dt = np.full(p.n_trials, max(analytic_dt_min(phi, p), 1e-12), dtype=float)
 
     # sigma_obs depends on elapsed time parameter t0, not on Δt.
     sigma2 = p.sigma0**2 + 2.0 * p.d * p.D * p.t0
 
-    # Precompute constant piece of Var(t_hat) excluding 1/N_gamma.
     # Var(t_hat) = A / N_gamma, where A = kappa * sigma_obs^4 / (4 d^2 D^2)
     A = p.kappa * (sigma2**2) / (4.0 * (p.d**2) * (p.D**2))
 
     for _ in range(p.n_iter):
-        # Photon counts per trial
-        lam = phi * dt
-        # Avoid pathological lam=0
-        lam = np.maximum(lam, 1e-12)
+        # Draw Poisson counts with current dt
+        lam = np.maximum(phi * dt, 1e-300)
         N_gamma = rng.poisson(lam=lam)
 
-        # Enforce a minimal photon count to avoid division blowups; if too low, extend dt.
-        too_low = N_gamma < 5
+        # If too few photons: increase dt and resample from Poisson(ΦΔt).
+        # We do bounded retries to keep runtime predictable (CI-friendly).
+        too_low = N_gamma < p.min_photons
         if np.any(too_low):
-            dt[too_low] *= 2.0
-            # Update lam for these in next iteration; keep others going.
-            N_gamma = np.where(too_low, 5, N_gamma)
+            dt_work = dt.copy()
+            N_work = N_gamma.copy()
+
+            for _k in range(p.max_photon_resample):
+                if not np.any(too_low):
+                    break
+                dt_work[too_low] *= 2.0
+                lam2 = np.maximum(phi * dt_work[too_low], 1e-300)
+                N_new = rng.poisson(lam=lam2)
+                N_work[too_low] = N_new
+                # update mask
+                too_low = N_work < p.min_photons
+
+            # If still too low after retries, clamp to min_photons as a last resort
+            # (this only affects extremely low-Φ tails and prevents division blowups).
+            N_gamma = np.maximum(N_work, p.min_photons)
+            dt = dt_work
+        else:
+            N_gamma = np.maximum(N_gamma, p.min_photons)
 
         var_t = A / N_gamma.astype(float)
 
@@ -133,6 +174,8 @@ def _parse_args() -> argparse.Namespace:
     ap.add_argument("--trials", type=int, default=2000, help="Monte Carlo trials per Φ.")
     ap.add_argument("--iters", type=int, default=25, help="Fixed-point iterations.")
     ap.add_argument("--seed", type=int, default=42, help="RNG seed.")
+    ap.add_argument("--min-photons", type=int, default=5, help="Minimal photon count per update (stability).")
+    ap.add_argument("--max-resample", type=int, default=12, help="Max Poisson resample attempts for too-low counts.")
     ap.add_argument("--out", type=str, default="photon_limit_results.txt", help="Output file.")
     return ap.parse_args()
 
@@ -150,22 +193,27 @@ if __name__ == "__main__":
         n_iter=args.iters,
         n_trials=args.trials,
         seed=args.seed,
+        min_photons=args.min_photons,
+        max_photon_resample=args.max_resample,
     )
 
     # Photon flux range [photons / second]
     phi_values = np.logspace(3, 7, 20)
 
-    rng = np.random.default_rng(seed=p.seed)
+    # Independent deterministic RNG substreams per Φ (clean reproducibility)
+    ss = np.random.SeedSequence(p.seed)
+    child_seeds = ss.spawn(len(phi_values))
 
     # Analytic baseline (deterministic)
-    dt_analytic = np.array([analytic_dt_min(phi, p) for phi in phi_values], dtype=float)
+    dt_analytic = np.array([analytic_dt_min(float(phi), p) for phi in phi_values], dtype=float)
 
     # Monte Carlo verification
     dt_mc_mean = []
     dt_mc_std = []
 
-    for phi in phi_values:
-        dt_samples = fixed_point_mc(phi=float(phi), p=p, rng=rng)
+    for i, phi in enumerate(phi_values):
+        rng_i = np.random.default_rng(child_seeds[i])
+        dt_samples = fixed_point_mc(phi=float(phi), p=p, rng=rng_i)
         dt_mc_mean.append(float(np.mean(dt_samples)))
         dt_mc_std.append(float(np.std(dt_samples, ddof=1)))
 
@@ -181,7 +229,9 @@ if __name__ == "__main__":
     print("----------------------------------------------------------")
     print("Model roles: elapsed parameter t0 fixed; acquisition window Δt controls photons Nγ ~ Poisson(ΦΔt)")
     print(f"Parameters: d={p.d}, D={p.D:.3e} m^2/s, sigma0={p.sigma0:.3e} m, t0={p.t0:.3e} s")
+    print(f"Variance model: Var(sigma^2_hat)=kappa*sigma_obs^4/Nγ with kappa={p.kappa:g}, confidence z={p.z:g}")
     print(f"Monte Carlo: trials/Φ={p.n_trials}, iterations={p.n_iter}, seed={p.seed}")
+    print(f"Stability: min_photons={p.min_photons}, max_resample={p.max_photon_resample}")
     print()
     print(f"Fitted scaling exponent (MC means): {slope:.4f} ± {slope_se:.4f} (SE)")
     print("Expected theoretical value: -1/3 ≈ -0.3333")

@@ -26,7 +26,8 @@ p(x \mid t)\,\|\,p(x \mid t+\Delta t)
 \right].
 \end{equation}
 
-For sufficiently smooth likelihoods, a Taylor expansion of
+Assume that $p(x\mid t)$ is twice continuously differentiable in $t$ and that
+differentiation can be interchanged with integration. A Taylor expansion of
 $\log p(x \mid t+\Delta t)$ around $t$ yields
 \begin{equation}
 \log p(x \mid t+\Delta t)
@@ -39,9 +40,9 @@ $\log p(x \mid t+\Delta t)$ around $t$ yields
 +
 R_3(x,\Delta t),
 \end{equation}
-where the remainder term satisfies
+where the remainder satisfies
 $|R_3(x,\Delta t)| \le C |\Delta t|^3$ uniformly in a neighborhood of $t$ under
-standard regularity conditions (existence of bounded third derivatives and dominated
+standard regularity assumptions (bounded third derivatives and dominated
 convergence).
 
 Substituting into the definition of $D_{\mathrm{KL}}$ and using
@@ -94,8 +95,7 @@ I_{\mathrm{eff}}(t)
 
 To relate KL divergence to hypothesis-testing performance, consider a binary test
 between hypotheses $H_0: t$ and $H_1: t+\Delta t$. Standard inequalities in
-information theory provide bounds between KL divergence and achievable error
-probabilities.
+information theory relate KL divergence to achievable error probabilities.
 
 In particular, the Bretagnolle--Huber inequality implies
 \begin{equation}
@@ -112,9 +112,9 @@ C(p^\ast)
 \log\!\left(\frac{1}{4 p^\ast}\right).
 \end{equation}
 
-Alternative choices of constants based on Pinsker's, Chernoff, or symmetric KL bounds
-lead to equivalent definitions that differ only by fixed numerical factors and do not
-affect scaling results.
+Alternative choices based on Pinsker, Chernoff, or symmetric KL bounds lead to
+equivalent criteria that differ only by fixed numerical factors and do not modify
+any scaling laws.
 
 \subsection{Equivalence of Estimation and Testing Criteria}
 

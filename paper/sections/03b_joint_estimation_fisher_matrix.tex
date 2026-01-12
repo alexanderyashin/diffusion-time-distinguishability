@@ -1,14 +1,17 @@
 % ============================================================
 % 03b_joint_estimation_fisher_matrix.tex
+% FULL REPLACEMENT (strictly conservative update)
 % ============================================================
 
-\section{Joint Estimation: Fisher Information Matrix for $(t, D, \sigma_0)$}
+\section{\texorpdfstring{Joint Estimation: Fisher Information Matrix for $(t, D, \sigma_0)$}{Joint Estimation: Fisher Information Matrix for (t, D, sigma0)}}
 \label{sec:joint_estimation}
 
 A common criticism of single-parameter bounds is their reliance on unrealistically
-strong assumptions about known nuisance parameters. In this section we remove this
-limitation by deriving the full Fisher information matrix (FIM) for joint estimation
+strong assumptions about known nuisance parameters. In this section we relax this
+assumption by deriving the full Fisher information matrix (FIM) for joint estimation
 of time $t$, diffusion coefficient $D$, and observation noise floor $\sigma_0$.
+The purpose of this analysis is not to evade identifiability constraints, but to
+make them explicit and to quantify their precise operational consequences.
 
 \subsection{Observation Model}
 
@@ -93,33 +96,38 @@ Dt & t^2 & \frac{t}{2} \\[6pt]
 \end{equation}
 
 This matrix has rank one, reflecting the fact that all parameters enter the model
-only through the single scalar combination $s=2Dt+\sigma_0^2$.
+only through the single scalar combination $s = 2Dt + \sigma_0^2$.
 
 For $N_{\mathrm{eff}}$ independent or effectively independent observations,
 \[
-J = N_{\mathrm{eff}} J^{(1)}.
+J = N_{\mathrm{eff}}\, J^{(1)} .
 \]
 
 \subsection{Cramér--Rao Bound for Time Under Joint Estimation}
 
-Although the full parameter vector is not jointly identifiable from a single
-snapshot, meaningful marginal bounds can still be obtained. The covariance matrix
-of any unbiased estimator satisfies
+Because the likelihood depends on $\theta$ only through the scalar $s$, the full
+parameter vector $(t, D, \sigma_0^2)$ is not jointly identifiable from a single
+snapshot. Consequently, the Fisher information matrix is singular and admits no
+ordinary inverse.
+
+Nevertheless, the covariance matrix of any unbiased estimator satisfies
 \[
-\mathrm{Cov}(\hat\theta) \succeq J^{-1},
+\mathrm{Cov}(\hat\theta) \succeq J^{+},
 \]
-where the inverse is understood in the sense of the Moore--Penrose pseudoinverse.
+where $J^{+}$ denotes the Moore--Penrose pseudoinverse of the Fisher information
+matrix. This pseudoinverse yields the smallest marginal variances compatible with
+the information geometry of the model, independently of any particular estimator.
 
 The marginal lower bound for the variance of $\hat t$ is therefore
 \[
 \mathrm{Var}(\hat t)
 \ge
-(J^{-1})_{tt}.
+(J^{+})_{tt}.
 \]
 
-Direct inversion yields
+Direct evaluation of the pseudoinverse gives
 \begin{equation}
-(J^{-1})_{tt}
+(J^{+})_{tt}
 =
 \frac{s^2}{2d N_{\mathrm{eff}} D^2}
 \left(
@@ -137,6 +145,12 @@ Equivalently,
 \right).
 \end{equation}
 
+It is important to stress that this bound represents a geometric lower limit implied
+by the Fisher information structure. It becomes an operationally attainable Cramér--Rao
+bound once the intrinsic degeneracy is lifted by any additional information, such as
+calibration of $D$ or $\sigma_0^2$, multi-time measurements, or weak external constraints.
+All such mechanisms are formally equivalent at the level of Fisher information.
+
 \subsection{Interpretation}
 
 The additional factor
@@ -149,10 +163,17 @@ approaches unity and the single-parameter CRLB is recovered. In the PSF-dominate
 regime, the penalty diverges, reflecting the fundamental non-identifiability of $t$
 when spatial broadening is dominated by observation noise.
 
+Crucially, this penalty is purely multiplicative and does not modify the asymptotic
+scaling with sample size or photon budget. The scaling exponents derived in the main
+text therefore remain invariant under joint estimation, a fact confirmed by the
+numerical studies presented in Appendix~D.
+
 \subsection{Identifiability and Degeneracy}
 
 The structure of the Fisher information matrix makes explicit that time $t$, diffusion
 coefficient $D$, and noise floor $\sigma_0^2$ cannot be independently identified from
 a single snapshot without additional constraints, calibration, or multi-time data.
-This degeneracy is not a weakness of the bound but an intrinsic property of the
-inference problem and reinforces the operational nature of time distinguishability.
+This degeneracy is not a weakness of the analysis but an intrinsic property of the
+inference problem. Rather than undermining the time distinguishability bounds, it
+clarifies their operational meaning and delineates the precise conditions under
+which they can be saturated.

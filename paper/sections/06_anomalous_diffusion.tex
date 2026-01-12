@@ -22,9 +22,9 @@ separately.
 \subsection{MSD-Based Lower Bound (Interpretive Criterion)}
 
 Before turning to information-theoretic bounds, it is instructive to consider a simple
-resolution-based lower bound. For two close hypotheses $t$ and $t+\Delta t$, a minimal
-requirement for distinguishability is that the expected change in the MSD exceeds the
-effective spatial resolution scale $\Delta x^2$,
+resolution-based lower bound. For two close hypotheses $t$ and $t+\Delta t$, a necessary
+(but not sufficient) requirement for distinguishability is that the expected change in
+the MSD exceeds the effective spatial resolution scale $\Delta x^2$,
 \begin{equation}
 \Delta \langle r^2 \rangle
 =
@@ -46,9 +46,9 @@ Solving for $\Delta t$ gives the heuristic lower bound
 \label{eq:anomalous_resolution}
 \end{equation}
 
-This criterion is not information-theoretic and does not account for finite statistics
-or noise. It serves only as an interpretive baseline and will be superseded by the
-photon-limited bounds below.
+This criterion does not account for finite statistics, photon noise, or optimal
+inference and therefore cannot be interpreted as a fundamental limit. It serves
+solely as an interpretive baseline.
 
 \subsection{Regime Structure (Interpretation)}
 
@@ -80,7 +80,7 @@ which decreases with time as spatial separation accelerates.
 \subsection{Photon-Limited Extension}
 
 We now return to the information-theoretic framework of
-Section~\ref{sec:photon_limited}. For anomalous diffusion with Gaussian propagator,
+Section~\ref{sec:photon_limited}. For anomalous diffusion with a Gaussian propagator,
 the observed variance satisfies
 \begin{equation}
 \sigma_{\mathrm{obs}}^2(t)
@@ -108,8 +108,8 @@ t^{2(1-\alpha)}.
 \label{eq:anomalous_photon}
 \end{equation}
 
-This result is the anomalous-diffusion analogue of
-Eq.~\eqref{eq:self_consistent}.
+This expression is the anomalous-diffusion analogue of the cubic fixed-point relation
+derived for normal diffusion in Eq.~\eqref{eq:self_consistent}.
 
 \subsection{Asymptotic Scaling Laws}
 
@@ -129,24 +129,29 @@ Eq.~\eqref{eq:self_consistent}.
 \frac{t^{\frac{2-\alpha}{3}}}{\Phi^{1/3}}.
 \end{equation}
 
-Both regimes retain the characteristic $\Phi^{-1/3}$ scaling, demonstrating that the
-photon-limited temporal-resolution exponent is universal across normal and anomalous
-diffusion.
+In both regimes the characteristic photon-limited exponent $\Phi^{-1/3}$ is preserved,
+demonstrating that the cubic self-consistency structure is universal across normal and
+anomalous diffusion within the stated model class.
 
 \subsection{Information-Theoretic Interpretation}
 
 The anomalous exponent $\alpha$ controls how rapidly spatial uncertainty generates
 information about elapsed time. Subdiffusion ($\alpha<1$) creates an information
 bottleneck, while superdiffusion ($\alpha>1$) enhances temporal distinguishability.
+The dependence on $\alpha$ modifies the temporal scaling but does not alter the
+photon-limited exponent, which is fixed by the observational channel.
 
 \subsection{Limitations}
 
 The derivations above assume:
 \begin{itemize}
 \item self-similar propagators with well-defined MSD,
-\item weak enough temporal correlations for effective Fisher-information scaling,
-\item asymptotically efficient estimators.
+\item sufficiently weak temporal correlations to permit effective Fisher-information
+      scaling,
+\item asymptotically efficient estimators operating within a fixed observation model.
 \end{itemize}
 
-Strongly non-Gaussian propagators (e.g., Lévy flights) generally require numerical
-information-theoretic analysis and are addressed in Appendix~B.
+Strongly non-Gaussian or ageing processes (e.g., continuous-time random walks with
+diverging waiting-time moments or Lévy flights) generally violate these assumptions.
+Such cases require explicit numerical or nonparametric information-theoretic analysis
+and are addressed separately in Appendix~B.
